@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Valentine's Day ❤️</title>
+<style>
+    body{
+        margin:0;
+        padding:0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+    }
+
+    .card{
+        background:white;
+        padding:30px;
+        border-radius:20px;
+        text-align:center;
+        width:350px;
+        box-shadow:0 0 30px rgba(0,0,0,0.2);
+        animation: pop 0.6s ease;
+    }
+
+    @keyframes pop{
+        from{transform:scale(0.5);opacity:0;}
+        to{transform:scale(1);opacity:1;}
+    }
+
+    h1{
+        color:#ff3366;
+    }
+
+    button{
+        padding:10px 20px;
+        border:none;
+        border-radius:20px;
+        font-size:16px;
+        cursor:pointer;
+        margin:10px;
+        transition:0.3s;
+    }
+
+    .yes{
+        background:#ff3366;
+        color:white;
+    }
+
+    .no{
+        background:#ccc;
+    }
+
+    .popup{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        display:none;
+    }
+
+    .popup-box{
+        background:white;
+        padding:25px;
+        border-radius:20px;
+        text-align:center;
+        width:320px;
+        animation: pop 0.5s ease;
+    }
+    
+     .firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: pink;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    from { transform: scale(0.5); opacity: 1; }
+    to { transform: scale(3); opacity: 0; }
+}
+
+    .heart{
+        position:absolute;
+        color:red;
+        font-size:20px;
+        animation: float 5s linear infinite;
+    }
+
+    @keyframes float{
+        from{bottom:-10px; opacity:1;}
+        to{bottom:100vh; opacity:0;}
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="mainCard">
+    <h1>💖 Hey  Handsome 💖</h1>
+    <p>I have some questions for you 😳</p>
+    <button class="yes" onclick="start()">Start 💌</button>
+</div>
+
+<!-- Popups -->
+<div class="popup" id="popup">
+    <div class="popup-box" id="popupBox"></div>
+</div>
+
+<script>
+let step = 0;
+
+const questions = [
+    "Do you believe in love at first sight? 😍",
+    "Are you smiling right now? 😊",
+    "Do you think we look cute together? 💑",
+    "Can I make you laugh everyday? 😄",
+    "Are u checking my pateince?😍",
+    "One more,Do u love me?🤗",
+    "Will you be my Valentine? ❤️🌹",
+];
+
+function start(){
+    showPopup();
+}
+
+function showPopup(){
+    document.getElementById("popup").style.display="flex";
+    document.getElementById("popupBox").innerHTML = `
+        <h2>${questions[step]}</h2>
+        <button class="yes" onclick="yes()">Yes 💖</button>
+        <button class="no" id="noBtn" onclick="no()">No 😢</button>
+    `;
+    moveNoButton();
+}
+
+function yes(){
+    step++;
+    if(step < questions.length){
+        showPopup();
+    }else{
+        document.getElementById("popupBox").innerHTML = `
+            <h1>🎉 Yay! You Said Yes 🎉</h1>
+           <p>Now you’re officially mine 😍</p>
+           <p>Let’s make this Valentine’s Day unforgettable 💖</p>
+           <p> ❤️ I LOVE YOU ❤️<p>
+     `;
+       launchCelebration();
+       launchFireworks();
+    }
+}
+    function launchFireworks() {
+       for(let i=0; i<20 ; i++){
+          setTimeout(()=>{
+                 createFirework();
+        }, i*200); 
+    }
+}
+
+function createFirework(){
+    const firework = document.createElement("div");
+    firework.classList.add("firework");
+    firework.style.background = "deeppink"; 
+    firework.style.left = Math.random()*100 + "vw";
+    firework.style.top = Math.random()*100 + "vh";
+    document.body.appendChild(firework);
+
+    setTimeout(()=>{ firework.remove(); }, 1000);
+}
+
+function no(){
+    alert("Wrong answer 😜 Try again ❤️");
+}
+
+function moveNoButton(){
+    const noBtn = document.getElementById("noBtn");
+    if(noBtn){
+        noBtn.onmouseover = function(){
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 200 - 100;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+    }
+}
+
+/* Floating hearts */
+setInterval(()=>{
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = Math.random()*20 + 10 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },5000);
+},300);
+</script>
+
+</body>
+</html>
